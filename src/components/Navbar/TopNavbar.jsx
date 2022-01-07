@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import SignInModal from './SignInModal';
 import SignupModal from './SignupModal';
 import NewBlogModal from './NewBlogMOdal';
+import UserModal from './UserModal'
 import { useNavigate } from 'react-router-dom'
 import './style.css'
 
@@ -14,6 +15,12 @@ function TopNavbar() {
     const [modalShow, setModalShow] = useState(false);
     const [onSignUpModalShow, setOnSignUpModalShow] = useState(false);
     const [createBlogModal, setCreateBlogModal] = useState(false);
+    const [userModal, setUserModal] = useState(false);
+    const [me, setMe] = useState({})
+
+    useEffect(() => {
+        handleFetch()
+    }, [])
 
 
     const handleSignOut = () => {
@@ -21,6 +28,25 @@ function TopNavbar() {
         navigate('/')
 
     }
+
+    const handleFetch = async () => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_URL}/users/me`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            if (response.ok) {
+                const data = await response.json()
+                setMe(data)
+            }
+        } catch (error) {
+            console.log(error);
+
+        }
+    }
+
+    console.log(me);
 
 
     return (
@@ -32,8 +58,16 @@ function TopNavbar() {
                     </div>
                 </Col>
                 <Col md={7} className='navbar-title-col'>
-                    <div className='navbar-title'>Blogs STD</div>
-                    <div className='navbar-username'>username</div>
+                    <div
+                        onClick={() => navigate('/')}
+                        className='navbar-title'>
+                        Blogs STD
+                    </div>
+                    <div
+                        onClick={() => setUserModal(true)}
+                        className='navbar-username'>
+                        {me.nickname}
+                    </div>
                 </Col>
                 <Col xs={9} md={4} className='navbar-boarding-col'>
                     {
@@ -74,6 +108,12 @@ function TopNavbar() {
             <NewBlogModal
                 show={createBlogModal}
                 onHide={() => setCreateBlogModal(false)}
+            />
+            <UserModal
+                show={userModal}
+                onHide={() => setUserModal(false)}
+                handleFetch={() => handleFetch()}
+                me={me}
             />
         </Container>
     )
