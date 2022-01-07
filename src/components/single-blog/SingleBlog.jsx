@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Container, Row } from 'react-bootstrap'
 import { useParams } from 'react-router-dom'
+import SingleComment from './SingleComment'
 import './style.css'
 
 function SingleBlog() {
@@ -13,6 +14,7 @@ function SingleBlog() {
     const [comment, setComment] = useState(initialState)
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(false)
+    const [editComment, setEditComment] = useState(false)
 
     useEffect(() => {
         handleFetch()
@@ -54,17 +56,27 @@ function SingleBlog() {
         }
     }
 
+    const handleEditComment = async (e) => {
+        setEditComment(!editComment)
+    }
+
 
     return (
-        <Container className='mt-5'>
+        <Container className='my-5'>
             <Row className='single-blog-container'>
-                <div><img src="https://picsum.photos/200/300" alt="blog-cover" /></div>
+                <div className='single-blog-cover'>
+                    <img src="https://picsum.photos/1700/1200" alt="blog-cover" />
+                </div>
                 <div className='single-blog-body'>
-                    <div>{data.title}</div>
-                    <div>{data.main_text}</div>
+                    <div className='single-blog-title'> {data.title}</div>
+                    <div className='single-blog-content'>{data.main_text}</div>
                 </div>
                 <div className='single-blog-footer'>
-                    <button className='navbar-button'>Edit</button>
+                    <button
+                        onClick={handleEditComment}
+                        className='navbar-button'>
+                        {!editComment ? "Edit" : "Save"}
+                    </button>
                     <button className='navbar-button'>Delete</button>
                 </div>
             </Row>
@@ -72,16 +84,7 @@ function SingleBlog() {
                 token &&
                 <Row className='mt-5 comment-row'>
                     <div className='single-blog-comment-container'>
-                        {data.comments && data.comments.map(comment => (
-                            <div className='single-comment'>
-                                <div>
-                                    <span className='mr-2'><img src="https://picsum.photos/200/300" alt="avatar-user" /></span>
-                                    <span></span>
-                                </div>
-                                <div className='px-2 py-2'>{comment.comment}</div>
-                            </div>
-                        )
-                        )}
+                        {data.comments && data.comments.map(comment => <SingleComment comment={comment} />)}
                     </div>
                     <div className='single-blog-comment-input'>
                         <input
@@ -100,7 +103,7 @@ function SingleBlog() {
                     </div>
                 </Row>
             }
-        </Container>
+        </Container >
     )
 }
 

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { Button, Modal, Form } from 'react-bootstrap'
+import React, { useState } from 'react'
+import { Button, Modal, Form, Row, Col } from 'react-bootstrap'
 import { ClockLoader } from "react-spinners"
 
 
@@ -35,6 +35,7 @@ function SignInModal(props) {
                 setIsLoading(false)
                 setError(false)
                 props.onHide()
+                props.handleFetch()
             } else {
                 setError(true)
                 setIsLoading(false)
@@ -52,15 +53,16 @@ function SignInModal(props) {
             size="md"
             aria-labelledby="contained-modal-title-vcenter"
             centered
+            className='blog-modal'
         >
             <Modal.Header closeButton>
-                <Modal.Title id="contained-modal-title-vcenter">
+                <Modal.Title >
                     Sign in
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit} >
-                    <Form.Group controlId="formBasicEmail">
+                    <Form.Group>
                         <Form.Control
                             type="email"
                             placeholder="Enter email"
@@ -68,7 +70,7 @@ function SignInModal(props) {
                             onChange={(e) => setUser({ ...user, email: e.target.value })}
                         />
                     </Form.Group>
-                    <Form.Group controlId="formBasicPassword">
+                    <Form.Group className='mt-2'>
                         <Form.Control
                             type="password"
                             placeholder="Password"
@@ -76,15 +78,15 @@ function SignInModal(props) {
                             onChange={(e) => setUser({ ...user, password: e.target.value })}
                         />
                     </Form.Group>
-                    {isLoading ?
-                        <ClockLoader color={'#212529'} loading={isLoading} size={20} /> :
-                        <Button variant="primary" type="submit">
-                            Sign In
-                        </Button>
-                    }
                 </Form>
             </Modal.Body>
             <Modal.Footer>
+                {isLoading ?
+                    <ClockLoader color={'#535353'} size={20} /> :
+                    <Button variant="primary" type="submit" onClick={handleSubmit}>
+                        Sign In
+                    </Button>
+                }
                 <Button onClick={props.onHide}>Close</Button>
             </Modal.Footer>
         </Modal>

@@ -7,10 +7,11 @@ function UserModal(props) {
     const token = localStorage.getItem('blogToken')
     const { me } = props
 
+
     const [user, setUser] = useState({
-        nickname: me && me.nickname,
-        email: me && me.email,
-        password: me && me.password
+        nickname: me.nickname,
+        email: me.email,
+        password: me.password
     })
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(false)
@@ -31,7 +32,7 @@ function UserModal(props) {
                 setIsLoading(false)
                 setError(false)
                 props.onHide()
-                props.handleFetch()
+                props.handlefetch()
             } else {
                 setError(true)
                 setIsLoading(false)
@@ -51,13 +52,13 @@ function UserModal(props) {
             centered
         >
             <Modal.Header closeButton>
-                <Modal.Title id="contained-modal-title-vcenter">
+                <Modal.Title>
                     Edit Profile
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit} >
-                    <Form.Group controlId="formBasicEmail">
+                    <Form.Group>
                         <Form.Control
                             type="text"
                             placeholder="Enter Nickname"
@@ -65,7 +66,7 @@ function UserModal(props) {
                             onChange={(e) => setUser({ ...user, nickname: e.target.value })}
                         />
                     </Form.Group>
-                    <Form.Group controlId="formBasicEmail">
+                    <Form.Group>
                         <Form.Control
                             type="email"
                             disabled
@@ -75,9 +76,9 @@ function UserModal(props) {
 
                         />
                     </Form.Group>
-                    <Form.Group controlId="formBasicPassword">
+                    <Form.Group>
                         <Form.Control
-                            type="password"
+                            type="current-password"
                             placeholder="Password"
                             value={user.password}
                             onChange={(e) => setUser({ ...user, password: e.target.value })}
@@ -86,7 +87,7 @@ function UserModal(props) {
                     {isLoading ?
                         <ClockLoader color={'#212529'} loading={isLoading} size={20} /> :
                         <Button variant="primary" type="submit">
-                            Sign In
+                            Update
                         </Button>
                     }
                 </Form>

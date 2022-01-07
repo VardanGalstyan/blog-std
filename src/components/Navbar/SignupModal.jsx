@@ -54,15 +54,16 @@ function SignupModal(props) {
             size="md"
             aria-labelledby="contained-modal-title-vcenter"
             centered
+            className='blog-modal'
         >
             <Modal.Header closeButton>
-                <Modal.Title id="contained-modal-title-vcenter">
+                <Modal.Title>
                     {token ? 'Sign in' : 'Sign up'}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit} >
-                    <Form.Group controlId="formBasicEmail">
+                    <Form.Group className='mb-2'>
                         <Form.Control
                             type="text"
                             placeholder="Enter Nickname"
@@ -70,7 +71,7 @@ function SignupModal(props) {
                             onChange={(e) => setUser({ ...user, nickname: e.target.value })}
                         />
                     </Form.Group>
-                    <Form.Group controlId="formBasicEmail">
+                    <Form.Group className='mb-2'>
                         <Form.Control
                             type="email"
                             placeholder="Enter email"
@@ -78,7 +79,7 @@ function SignupModal(props) {
                             onChange={(e) => setUser({ ...user, email: e.target.value })}
                         />
                     </Form.Group>
-                    <Form.Group controlId="formBasicPassword">
+                    <Form.Group >
                         <Form.Control
                             type="password"
                             placeholder="Password"
@@ -86,15 +87,16 @@ function SignupModal(props) {
                             onChange={(e) => setUser({ ...user, password: e.target.value })}
                         />
                     </Form.Group>
-                    {isLoading ?
-                        <ClockLoader color={'#212529'} loading={isLoading} size={20} /> :
-                        <Button variant="primary" type="submit">
-                            Sign Up
-                        </Button>
-                    }
+
                 </Form>
             </Modal.Body>
             <Modal.Footer>
+                {isLoading ?
+                    <ClockLoader color={'#535353'} size={20} /> :
+                    <Button variant="primary" type="submit" onClick={handleSubmit}>
+                        Sign Up
+                    </Button>
+                }
                 <Button onClick={props.onHide}>Close</Button>
             </Modal.Footer>
         </Modal>

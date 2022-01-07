@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import SignInModal from './SignInModal';
 import SignupModal from './SignupModal';
-import NewBlogModal from './NewBlogMOdal';
+import NewBlogModal from './NewBlogModal';
 import UserModal from './UserModal'
 import { useNavigate } from 'react-router-dom'
 import './style.css'
@@ -62,9 +62,9 @@ function TopNavbar() {
                         Blogs STD
                     </div>
                     <div
-                        onClick={() => setUserModal(true)}
+                        onClick={token ? () => setUserModal(true) : null}
                         className='navbar-username'>
-                        {me.nickname}
+                        {token ? me && me.nickname : 'Sign in to see more'}
                     </div>
                 </Col>
                 <Col xs={9} md={4} className='navbar-boarding-col'>
@@ -83,7 +83,9 @@ function TopNavbar() {
                             :
                             <>
                                 <button
-                                    onClick={() => setModalShow(true)} >
+                                    onClick={() => setModalShow(true)}
+                                    handleFetch={() => handleFetch()}
+                                >
                                     Sign In
                                 </button>
                                 <button
@@ -110,7 +112,7 @@ function TopNavbar() {
             <UserModal
                 show={userModal}
                 onHide={() => setUserModal(false)}
-                handleFetch={() => handleFetch()}
+                handlefetch={() => handleFetch()}
                 me={me}
             />
         </Container>

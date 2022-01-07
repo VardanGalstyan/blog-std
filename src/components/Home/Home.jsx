@@ -5,7 +5,8 @@ import SearchBar from './SearchBar/SearchBar.jsx'
 import './style.css'
 
 function Home() {
-    const [data, setData] = useState([])
+
+    let [data, setData] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(false)
     const [searchValue, setSearchValue] = useState('')
@@ -34,18 +35,16 @@ function Home() {
         }
     }
 
-    const handleSort = (data, value) => {
-        data.sort((a, b) => {
-            if (value) {
-                return a.title.localeCompare(b.title)
-            } else {
-                return b.title.localeCompare(a.title)
-            }
+
+
+    const handleFilter = (data, value) => {
+        return data.filter(item => {
+            return item.title.toLowerCase().includes(value.toLowerCase())
         })
     }
 
     return (
-        <Container>
+        <Container className='main-container-home'>
             <SearchBar
                 searchValueSet={(e) => setSearchValue(e)}
                 searchValue={searchValue}
@@ -54,7 +53,7 @@ function Home() {
             />
             <Row className='blog-card-holder'>
                 {
-                    data && data.filter(item => item.title.toLowerCase().includes(searchValue.toLowerCase())).map(blog => <Card blog={blog} key={blog._id} />)
+                    data && handleFilter(data, searchValue).map(blog => <Card blog={blog} key={blog._id} />)
                 }
             </Row>
         </Container>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Modal, Form, Button } from 'react-bootstrap'
+import { Modal, Form, Button, Row, Col } from 'react-bootstrap'
 import { ClockLoader } from "react-spinners"
 
 function NewBlogModal(props) {
@@ -51,53 +51,63 @@ function NewBlogModal(props) {
             size="md"
             aria-labelledby="contained-modal-title-vcenter"
             centered
+            className='blog-modal'
         >
             <Modal.Header closeButton>
-                <Modal.Title id="contained-modal-title-vcenter">
-                    Sign in
+                <Modal.Title>
+                    New Blog
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit} >
-                    <Form.Group>
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter Title"
-                            value={blog.title}
-                            onChange={(e) => setBlog({ ...blog, title: e.target.value })}
-                        />
-                    </Form.Group>
-                    <Form.Group controlId="exampleForm.ControlSelect1">
-                        <Form.Label>Category</Form.Label>
-                        <Form.Control
-                            as="select"
-                            value={blog.category}
-                            onChange={(e) => setBlog({ ...blog, category: e.target.value })}
-                        >
-                            {BlogCategory.map((category, index) => <option key={index}>{category}</option>)}
-                        </Form.Control>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Control
-                            as="textarea"
-                            rows={3}
-                            placeholder="Enter Main Text"
-                            value={blog.main_text}
-                            onChange={(e) => setBlog({ ...blog, main_text: e.target.value })}
-                        />
-                    </Form.Group>
-                    {isLoading ?
-                        <ClockLoader color={'#212529'} loading={isLoading} size={20} /> :
-                        <Button variant="primary" type="submit">
-                            Sign In
-                        </Button>
-                    }
+                    <Row>
+                        <Form.Group as={Col} >
+                            <Form.Control
+                                type="text"
+                                placeholder="Enter Title"
+                                value={blog.title}
+                                onChange={(e) => setBlog({ ...blog, title: e.target.value })}
+                            />
+                        </Form.Group>
+                        <Form.Group as={Col}>
+                            <Form.Control
+                                as="select"
+                                value={blog.category}
+                                onChange={(e) => setBlog({ ...blog, category: e.target.value })}
+                            >
+                                {BlogCategory.map((category, index) => <option key={index}>{category}</option>)}
+                            </Form.Control>
+                        </Form.Group>
+                    </Row>
+                    <Row className='my-2'>
+                        <Form.Group as={Col}>
+                            <Form.Control
+                                as="textarea"
+                                rows={3}
+                                placeholder="Enter Main Text"
+                                value={blog.main_text}
+                                onChange={(e) => setBlog({ ...blog, main_text: e.target.value })}
+                            />
+                        </Form.Group>
+                    </Row>
+
                 </Form>
             </Modal.Body>
             <Modal.Footer>
+                {
+                    isLoading ?
+                        <ClockLoader color={'#353535'} size={20} /> :
+                        <Button
+                            variant="primary"
+                            type="submit"
+                            onClick={handleSubmit}
+                        >
+                            Sign In
+                        </Button>
+                }
                 <Button onClick={props.onHide}>Close</Button>
             </Modal.Footer>
-        </Modal>
+        </Modal >
     )
 }
 
