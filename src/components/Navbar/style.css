@@ -18,10 +18,12 @@
 
 .navbar-title {
   font-weight: 600;
+  cursor: pointer;
 }
 
-.navbar-username {
+.navbar-username span {
   font-size: 13px;
+  cursor: pointer;
 }
 
 .navbar-boarding-col {
@@ -52,4 +54,3 @@
     display: none;
   }
 }
-

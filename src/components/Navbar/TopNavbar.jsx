@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
-import SignInModal from './SignInModal';
-import SignupModal from './SignupModal';
-import NewBlogModal from './NewBlogModal';
-import UserModal from './UserModal'
+import SignInModal from './Modals/SignInModal';
+import SignupModal from './Modals/SignupModal';
+import NewBlogModal from './Modals/NewBlogModal';
+import UserModal from './Modals/UserModal'
 import { useNavigate } from 'react-router-dom'
 import './style.css'
 
@@ -61,10 +61,17 @@ function TopNavbar() {
                         className='navbar-title'>
                         Blogs STD
                     </div>
-                    <div
-                        onClick={token ? () => setUserModal(true) : null}
-                        className='navbar-username'>
-                        {token ? me && me.nickname : 'Sign in to see more'}
+                    <div className='navbar-username'>
+                        {
+                            token ?
+                                me &&
+                                <span
+                                    onClick={token ? () => setUserModal(true) : null}
+                                >
+                                    {me.nickname}
+                                </span> :
+                                'Sign in to see more'
+                        }
                     </div>
                 </Col>
                 <Col xs={9} md={4} className='navbar-boarding-col'>
@@ -113,7 +120,7 @@ function TopNavbar() {
                 show={userModal}
                 onHide={() => setUserModal(false)}
                 handlefetch={() => handleFetch()}
-                me={me}
+                own={me && me}
             />
         </Container>
     )

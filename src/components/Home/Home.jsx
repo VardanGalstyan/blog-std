@@ -6,16 +6,31 @@ import './style.css'
 
 function Home() {
 
-    let [data, setData] = useState([])
+    const [data, setData] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(false)
     const [searchValue, setSearchValue] = useState('')
-    const [sort, setSort] = useState(false)
+    const [sortValue, setSortValue] = useState('title')
 
 
     useEffect(() => {
         handleFetch()
     }, [])
+
+
+    data.sort((a, b) => {
+        if (sortValue !== '') {
+            if (a[sortValue].toLowerCase() < b[sortValue].toLowerCase()) {
+                return -1
+            }
+            if (a[sortValue].toLowerCase() > b[sortValue].toLowerCase()) {
+                return 1
+            }
+            return 0
+        } else {
+            return ''
+        }
+    })
 
     const handleFetch = async () => {
         try {
@@ -48,8 +63,8 @@ function Home() {
             <SearchBar
                 searchValueSet={(e) => setSearchValue(e)}
                 searchValue={searchValue}
-                sort={sort}
-                setSort={(e) => setSort(e)}
+                sortValueSet={(e) => setSortValue(e)}
+                sortValue={sortValue}
             />
             <Row className='blog-card-holder'>
                 {
