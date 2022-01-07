@@ -46,8 +46,6 @@ function TopNavbar() {
         }
     }
 
-    console.log(me);
-
 
     return (
         <Container className='navbar mt-5'>

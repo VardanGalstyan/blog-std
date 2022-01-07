@@ -7,16 +7,13 @@ function UserModal(props) {
     const token = localStorage.getItem('blogToken')
     const { me } = props
 
-
     const [user, setUser] = useState({
-        nickname: me.nickname,
-        email: me.email,
-        password: me.password
+        nickname: me && me.nickname,
+        email: me && me.email,
+        password: me && me.password
     })
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(false)
-
-    console.log(user, 'user');
 
     const handleSubmit = async (e) => {
         try {
@@ -31,7 +28,6 @@ function UserModal(props) {
                 body: JSON.stringify(user)
             })
             if (response.ok) {
-                const data = await response.json()
                 setIsLoading(false)
                 setError(false)
                 props.onHide()

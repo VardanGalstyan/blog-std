@@ -4,8 +4,14 @@ import { useNavigate } from 'react-router-dom'
 function Card(props) {
 
     const { blog } = props
-    const date = new Date(blog.createdAt).toDateString().split(' ').splice(1, 3).join(' ')
+    const date = new Date(blog.createdAt)
+        .toDateString()
+        .split(' ')
+        .splice(1, 3)
+        .join(' ')
+
     const navigate = useNavigate()
+
     return (
         <div className='blog-cards'>
             <div className='blog-card-header'>

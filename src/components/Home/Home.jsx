@@ -54,8 +54,7 @@ function Home() {
             />
             <Row className='blog-card-holder'>
                 {
-                    !sort ? data && data.filter(item => item.title.toLowerCase().includes(searchValue.toLowerCase())).map(blog => <Card blog={blog} key={blog._id} />) :
-                        data && data.filter(item => item.title.toLowerCase().includes(searchValue.toLowerCase())).map(blog => <Card blog={blog} key={blog._id} />)
+                    data && data.filter(item => item.title.toLowerCase().includes(searchValue.toLowerCase())).map(blog => <Card blog={blog} key={blog._id} />)
                 }
             </Row>
         </Container>
