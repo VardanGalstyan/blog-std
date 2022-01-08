@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Modal, Form, Button, Row, Col } from 'react-bootstrap'
 import { ClockLoader } from "react-spinners"
+import { useDispatch } from 'react-redux'
+import { fillDataBaseAction } from '../../../Redux/Actions/actions'
 
 function NewBlogModal(props) {
 
@@ -10,6 +12,7 @@ function NewBlogModal(props) {
         category: '',
     }
 
+    const dispatch = useDispatch()
     const token = localStorage.getItem('blogToken')
     const BlogCategory = ['Technology', 'Science', 'Health', 'Sports', 'Entertainment', 'Business', 'Politics']
 
@@ -34,7 +37,9 @@ function NewBlogModal(props) {
                 setBlog(initialState)
                 setIsLoading(false)
                 setError(false)
+                dispatch(fillDataBaseAction())
                 props.onHide()
+
             } else {
                 setError(true)
                 setIsLoading(false)
@@ -42,7 +47,6 @@ function NewBlogModal(props) {
         } catch (error) {
             console.log(error);
         }
-
     }
 
     return (

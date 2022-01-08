@@ -5,45 +5,32 @@ import SignupModal from './Modals/SignupModal';
 import NewBlogModal from './Modals/NewBlogModal';
 import UserModal from './Modals/UserModal'
 import { useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { userDataBaseAction } from '../../Redux/Actions/actions';
 import './style.css'
 
 function TopNavbar() {
 
     let token = localStorage.getItem('blogToken')
     let navigate = useNavigate()
+    const dispatch = useDispatch()
+    const me = useSelector(state => state.loggedUser.user)
+
 
     const [modalShow, setModalShow] = useState(false);
     const [onSignUpModalShow, setOnSignUpModalShow] = useState(false);
     const [createBlogModal, setCreateBlogModal] = useState(false);
     const [userModal, setUserModal] = useState(false);
-    const [me, setMe] = useState({})
+
 
     useEffect(() => {
-        handleFetch()
+        dispatch(userDataBaseAction(token))
     }, [])
 
 
     const handleSignOut = () => {
         localStorage.removeItem('blogToken')
         navigate('/')
-
-    }
-
-    const handleFetch = async () => {
-        try {
-            const response = await fetch(`${process.env.REACT_APP_URL}/users/me`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-            if (response.ok) {
-                const data = await response.json()
-                setMe(data)
-            }
-        } catch (error) {
-            console.log(error);
-
-        }
     }
 
 
@@ -91,7 +78,6 @@ function TopNavbar() {
                             <>
                                 <button
                                     onClick={() => setModalShow(true)}
-                                    handleFetch={() => handleFetch()}
                                 >
                                     Sign In
                                 </button>
@@ -119,8 +105,6 @@ function TopNavbar() {
             <UserModal
                 show={userModal}
                 onHide={() => setUserModal(false)}
-                handlefetch={() => handleFetch()}
-                own={me && me}
             />
         </Container>
     )

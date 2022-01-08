@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import { Button, Modal, Form } from 'react-bootstrap'
 import { ClockLoader } from "react-spinners"
+import { useDispatch } from 'react-redux'
+import { userDataBaseAction } from '../../../Redux/Actions/actions'
 
 
 function SignInModal(props) {
 
+    const dispatch = useDispatch()
     const initialState = {
         email: '',
         password: ''
@@ -33,7 +36,7 @@ function SignInModal(props) {
                 setIsLoading(false)
                 setError(false)
                 props.onHide()
-                props.handleFetch()
+                dispatch(userDataBaseAction(data.accessToken))
             } else {
                 setError(true)
                 setIsLoading(false)
@@ -64,6 +67,7 @@ function SignInModal(props) {
                         <Form.Control
                             type="email"
                             placeholder="Enter email"
+                            autoComplete='email'
                             value={user.email}
                             onChange={(e) => setUser({ ...user, email: e.target.value })}
                         />
@@ -74,6 +78,7 @@ function SignInModal(props) {
                             placeholder="Password"
                             value={user.password}
                             onChange={(e) => setUser({ ...user, password: e.target.value })}
+                            autoComplete='current-password'
                         />
                     </Form.Group>
                 </Form>

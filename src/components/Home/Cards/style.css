@@ -56,7 +56,7 @@
 .blog-card-footer {
   display: flex;
   justify-content: flex-start;
-  align-items: baseline;
+  align-items: center;
   padding: 10px;
   font-family: var(--text-font);
 }
@@ -74,6 +74,9 @@
 .blog-card-footer-name {
   font-size: 12px;
   font-weight: 600;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .blog-card-footer-created {
@@ -81,5 +84,5 @@
   color: var(--text-color);
   font-family: var(--text-font);
   margin-left: 40px;
+  white-space: nowrap;
 }
-

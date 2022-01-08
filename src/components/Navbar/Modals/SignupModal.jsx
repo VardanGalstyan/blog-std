@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Button, Modal, Form } from 'react-bootstrap'
 import { ClockLoader } from "react-spinners"
+import { useDispatch } from 'react-redux'
+import { userDataBaseAction } from '../../../Redux/Actions/actions'
 
 
-function SignupModal(props) {
+function SignUpModal(props) {
+
+    const dispatch = useDispatch()
 
     const initialState = {
         nickname: '',
         email: '',
         password: ''
     }
-
-    const token = localStorage.getItem('blogToken')
 
     const [user, setUser] = useState(initialState)
     const [isLoading, setIsLoading] = useState(false)
@@ -33,10 +35,10 @@ function SignupModal(props) {
                 const data = await response.json()
                 setUser(initialState)
                 localStorage.setItem('blogToken', data.accessToken)
-                localStorage.setItem('blogNickName', data.savedPlayer.nickname)
                 setIsLoading(false)
-                setError(false)
+                dispatch(userDataBaseAction(data.accessToken))
                 props.onHide()
+
             } else {
                 setError(true)
                 setIsLoading(false)
@@ -58,7 +60,7 @@ function SignupModal(props) {
         >
             <Modal.Header closeButton>
                 <Modal.Title>
-                    {token ? 'Sign in' : 'Sign up'}
+                    Sign up
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -75,6 +77,7 @@ function SignupModal(props) {
                         <Form.Control
                             type="email"
                             placeholder="Enter email"
+                            autoComplete="email"
                             value={user.email}
                             onChange={(e) => setUser({ ...user, email: e.target.value })}
                         />
@@ -82,7 +85,8 @@ function SignupModal(props) {
                     <Form.Group >
                         <Form.Control
                             type="password"
-                            placeholder="Password"
+                            placeholder="password"
+                            autoComplete='current-password'
                             value={user.password}
                             onChange={(e) => setUser({ ...user, password: e.target.value })}
                         />
@@ -103,4 +107,4 @@ function SignupModal(props) {
     )
 }
 
-export default SignupModal
+export default SignUpModal
