@@ -2,6 +2,8 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import allBlogsReducer from './Reducers/allBlogsReducer';
 import userReducer from './Reducers/userReducer';
+import searchReducer from './Reducers/searchReducer';
+import singleBlogReducer from './Reducers/singleBlogReducer';
 
 
 export const initialState = {
@@ -15,13 +17,23 @@ export const initialState = {
         user: {},
         loading: false,
         error: null
-    }
+    },
+
+    selectedBlog: {
+        blog: {},
+        loading: false,
+        error: null
+    },
+
+    searchValue: '',
 }
 
 
 const combinedReducers = combineReducers({
     allBlogs: allBlogsReducer,
-    loggedUser: userReducer
+    loggedUser: userReducer,
+    selectedBlog: singleBlogReducer,
+    searchValue: searchReducer
 
 })
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
 import { ClockLoader } from "react-spinners"
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,6 +14,10 @@ function UserModal(props) {
         nickname,
         email,
     }
+
+    useEffect(() => {
+        setUser(initialState)
+    }, [props.me])
 
     const [user, setUser] = useState(initialState)
     const [isLoading, setIsLoading] = useState(false)

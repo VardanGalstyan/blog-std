@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
 import { Row } from 'react-bootstrap'
 import { useParams } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import SingleComment from './SingleComment'
+import { fillSingleBlogAction } from '../../Redux/Actions/actions'
 
-function Comments({ data, handleFetch }) {
+function Comments({ data }) {
 
     const { id } = useParams()
     const initialState = { comment: '' }
     const token = localStorage.getItem('blogToken')
+    const dispatch = useDispatch()
 
     const [comment, setComment] = useState(initialState)
     const [isLoading, setIsLoading] = useState(false)
@@ -26,8 +29,9 @@ function Comments({ data, handleFetch }) {
             })
             if (response.ok) {
                 setIsLoading(false)
-                handleFetch()
                 setComment(initialState)
+                dispatch(fillSingleBlogAction(id))
+
             } else {
                 setError(true)
                 setIsLoading(false)
@@ -40,7 +44,7 @@ function Comments({ data, handleFetch }) {
     return (
         <Row className='mt-5 comment-row'>
             <div className='single-blog-comment-container'>
-                {data.comments && data.comments.map(comment => <SingleComment comment={comment} key={comment._id} />)}
+                {data.comments && data.comments.map(comment => <SingleComment comment={comment} key={comment._id} id={id} />)}
             </div>
             <div className='single-blog-comment-input'>
                 <input

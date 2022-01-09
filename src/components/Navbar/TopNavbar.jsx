@@ -105,6 +105,7 @@ function TopNavbar() {
             <UserModal
                 show={userModal}
                 onHide={() => setUserModal(false)}
+                me={me}
             />
         </Container>
     )

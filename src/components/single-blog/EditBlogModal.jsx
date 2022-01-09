@@ -1,20 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Modal, Form, Button, Row, Col } from 'react-bootstrap'
 import { ClockLoader } from "react-spinners"
-import { useDispatch } from 'react-redux'
-import { fillDataBaseAction } from '../../../Redux/Actions/actions'
-import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { fillDataBaseAction } from '../../Redux/Actions/actions.js'
 
-function NewBlogModal(props) {
 
+function EditBlogModal(props) {
+
+    const newBlog = useSelector(state => state.selectedBlog.blog)
+    const dispatch = useDispatch()
     const initialState = {
-        title: '',
-        main_text: '',
-        category: '',
+        title: newBlog.title,
+        main_text: newBlog.main_text,
+        category: newBlog.category,
     }
 
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
+    const id = props.id
     const token = localStorage.getItem('blogToken')
     const BlogCategory = ['Technology', 'Science', 'Health', 'Sports', 'Entertainment', 'Business', 'Politics']
 
@@ -22,12 +23,16 @@ function NewBlogModal(props) {
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(false)
 
+    useEffect(() => {
+        setBlog(initialState)
+    }, [newBlog])
+
     const handleSubmit = async (e) => {
         try {
             e.preventDefault()
             setIsLoading(true)
-            const response = await fetch(`${process.env.REACT_APP_URL}/users/blogs`, {
-                method: 'POST',
+            const response = await fetch(`${process.env.REACT_APP_URL}/users/blogs/${id}`, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
@@ -35,12 +40,10 @@ function NewBlogModal(props) {
                 body: JSON.stringify(blog)
             })
             if (response.ok) {
-                const data = await response.json()
                 setBlog(initialState)
                 setIsLoading(false)
-                navigate("/")
+                dispatch(fillDataBaseAction(id))
                 setError(false)
-                dispatch(fillDataBaseAction())
                 props.onHide()
 
             } else {
@@ -62,7 +65,7 @@ function NewBlogModal(props) {
         >
             <Modal.Header closeButton>
                 <Modal.Title>
-                    New Blog
+                    Edit Blog
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -109,7 +112,7 @@ function NewBlogModal(props) {
                             type="submit"
                             onClick={handleSubmit}
                         >
-                            Sign In
+                            Update
                         </Button>
                 }
                 <Button onClick={props.onHide}>Close</Button>
@@ -118,4 +121,4 @@ function NewBlogModal(props) {
     )
 }
 
-export default NewBlogModal
+export default EditBlogModal
