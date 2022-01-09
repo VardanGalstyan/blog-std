@@ -20,7 +20,6 @@ function NewBlogModal(props) {
 
     const [blog, setBlog] = useState(initialState)
     const [isLoading, setIsLoading] = useState(false)
-    const [error, setError] = useState(false)
 
     const handleSubmit = async (e) => {
         try {
@@ -35,16 +34,13 @@ function NewBlogModal(props) {
                 body: JSON.stringify(blog)
             })
             if (response.ok) {
-                const data = await response.json()
                 setBlog(initialState)
                 setIsLoading(false)
                 navigate("/")
-                setError(false)
                 dispatch(fillDataBaseAction())
                 props.onHide()
 
             } else {
-                setError(true)
                 setIsLoading(false)
             }
         } catch (error) {
@@ -109,7 +105,7 @@ function NewBlogModal(props) {
                             type="submit"
                             onClick={handleSubmit}
                         >
-                            Sign In
+                            Create
                         </Button>
                 }
                 <Button onClick={props.onHide}>Close</Button>

@@ -1,11 +1,12 @@
 import './style.css'
 import React, { useState, useEffect } from 'react'
 import { Container, Row } from 'react-bootstrap'
+import { ClockLoader } from "react-spinners"
 import { useParams, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { fillSingleBlogAction } from '../../Redux/Actions/actions'
 import Comments from './Comments'
 import EditBlogModal from './EditBlogModal'
+import { fillSingleBlogAction } from '../../Redux/Actions/actions'
 
 function SingleBlog() {
 
@@ -15,15 +16,14 @@ function SingleBlog() {
     const dispatch = useDispatch()
 
 
-
-    const data = useSelector(state => state.selectedBlog.blog)
     const [isLoading, setIsLoading] = useState(false)
-    const [error, setError] = useState(false)
+    const { loggedUser } = useSelector(state => state)
+    const { blog } = useSelector(state => state.selectedBlog)
     const [isModalShow, setIsModalShow] = useState(false)
-
 
     useEffect(() => {
         dispatch(fillSingleBlogAction(id))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
 
@@ -39,7 +39,6 @@ function SingleBlog() {
             if (response.ok) {
                 navigate('/')
             } else {
-                setError(true)
                 setIsLoading(false)
             }
         } catch (error) {
@@ -51,35 +50,40 @@ function SingleBlog() {
     return (
         <Container className='my-5'>
             {
-                isLoading ? 'loading' :
-                    <Row className='single-blog-container'>
-                        <div className='single-blog-cover'>
-                            <img src="https://picsum.photos/900/400" alt="blog-cover" />
+                <Row className='single-blog-container'>
+                    <div className='single-blog-cover'>
+                        <img src="https://picsum.photos/900/400" alt="blog-cover" />
+                    </div>
+                    <div className='single-blog-body'>
+                        <div className='single-blog-title'> {blog.title}</div>
+                        <div className='single-blog-content'>{blog.main_text}</div>
+                    </div>
+
+                    {
+                        blog.author && blog.author._id === loggedUser.user._id &&
+                        <div className='single-blog-footer'>
+                            {isLoading ? <ClockLoader color={'#353535'} size={20} /> :
+                                <>
+                                    <button
+                                        onClick={() => setIsModalShow(true)}
+                                        className='navbar-button'>
+                                        Edit
+                                    </button>
+                                    <button
+                                        onClick={handleDelete}
+                                        className='navbar-button'>
+                                        Delete
+                                    </button>
+                                </>
+                            }
                         </div>
-                        <div className='single-blog-body'>
-                            <div className='single-blog-title'> {data.title}</div>
-                            <div className='single-blog-content'>{data.main_text}</div>
-                        </div>
-                        {
-                            <div className='single-blog-footer'>
-                                <button
-                                    onClick={() => setIsModalShow(true)}
-                                    className='navbar-button'>
-                                    Edit
-                                </button>
-                                <button
-                                    onClick={handleDelete}
-                                    className='navbar-button'>
-                                    Delete
-                                </button>
-                            </div>
-                        }
-                    </Row>
+                    }
+                </Row>
 
             }
             {
                 token &&
-                <Comments data={data} />
+                <Comments data={blog && blog} />
             }
             <EditBlogModal
                 show={isModalShow}

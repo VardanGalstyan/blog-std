@@ -125,4 +125,54 @@
   font-size: 12px;
   line-height: 1.5;
   padding: 10px;
+  width: 100%;
+}
+
+.edit-comment-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 10px;
+}
+
+.edit-comment-container input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 8px;
+  border: none;
+  background-color: rgba(128, 128, 128, 0.068);
+}
+
+.edit-comment-container input:focus {
+  border: none !important;
+  outline: none !important;
+}
+
+.edit-comment-buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+}
+
+.edit-comment-container span {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.edit-comment-container span:hover {
+  font-weight: 600;
+}
+
+.error-message {
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.error-message svg {
+  color: red;
+  font-size: 20px;
+  margin-right: 5px;
 }

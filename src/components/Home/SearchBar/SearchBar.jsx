@@ -15,7 +15,6 @@ function SearchBar(props) {
                             value={props.sortValue}
                             onChange={(e) => props.sortValueSet(e.target.value)}
                         >
-                            <option value='0'>Sort</option>
                             <option value='title'>Title</option>
                             <option value='main_text'>Content</option>
                             <option value='createdAt'>Date</option>
@@ -30,7 +29,6 @@ function SearchBar(props) {
                         onChange={(e) => props.searchValueSet(e.target.value)}
                     />
                 </Col>
-
             </Row>
         </Container >
     )

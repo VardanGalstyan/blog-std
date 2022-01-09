@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Modal, Form, Button, Row, Col } from 'react-bootstrap'
 import { ClockLoader } from "react-spinners"
 import { useDispatch, useSelector } from 'react-redux'
-import { fillDataBaseAction } from '../../Redux/Actions/actions.js'
+import { fillSingleBlogAction } from '../../Redux/Actions/actions.js'
 
 
 function EditBlogModal(props) {
@@ -42,7 +42,7 @@ function EditBlogModal(props) {
             if (response.ok) {
                 setBlog(initialState)
                 setIsLoading(false)
-                dispatch(fillDataBaseAction(id))
+                dispatch(fillSingleBlogAction(id))
                 setError(false)
                 props.onHide()
 
